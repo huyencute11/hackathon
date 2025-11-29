@@ -94,8 +94,25 @@ export const RegionDetail: React.FC = () => {
           {t('common.back')}
         </Button>
 
-        <Card className="mb-6">
-          <Title level={2}>{data.region.name}</Title>
+        <Card 
+          className="mb-6"
+          cover={
+            data.region.image_url && (
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src={data.region.image_url}
+                  alt={data.region.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-6 text-white">
+                  <Title level={2} className="!text-white !mb-2">{data.region.name}</Title>
+                </div>
+              </div>
+            )
+          }
+        >
+          {!data.region.image_url && <Title level={2}>{data.region.name}</Title>}
           <Paragraph className="text-gray-600">{data.region.description}</Paragraph>
         </Card>
 

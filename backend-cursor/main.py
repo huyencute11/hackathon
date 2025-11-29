@@ -162,6 +162,7 @@ async def get_all_regions_with_suggestions(db: Session = Depends(database.get_db
                     id=region.id,
                     name=region.name,
                     description=region.description,
+                    image_url=region.image_url,
                     tags=tags,
                     items=region_items,
                     providers=providers
@@ -267,6 +268,7 @@ async def get_region_detail(
         id=region.id,
         name=region.name,
         description=region.description,
+        image_url=region.image_url,
         tags=tags,
         items=region_items,
         providers=providers

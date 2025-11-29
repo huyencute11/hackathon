@@ -6,6 +6,7 @@ class RegionResponse(BaseModel):
     id: int
     name: str
     description: Optional[str] = None
+    image_url: Optional[str] = None
     
     class Config:
         from_attributes = True

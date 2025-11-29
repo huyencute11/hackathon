@@ -24,7 +24,19 @@ export const RegionCard: React.FC<RegionCardProps> = ({ region, onViewDetail, on
 
   return (
     <Card
-      className="h-full shadow-md hover:shadow-lg transition-shadow"
+      className="h-full shadow-md hover:shadow-lg transition-shadow overflow-hidden"
+      cover={
+        region.image_url && (
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={region.image_url}
+              alt={region.name}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          </div>
+        )
+      }
       title={
         <div className="flex items-center gap-2">
           <EnvironmentOutlined className="text-blue-500" />
@@ -32,13 +44,13 @@ export const RegionCard: React.FC<RegionCardProps> = ({ region, onViewDetail, on
         </div>
       }
       extra={
-        <Button type="link" onClick={() => onViewDetail?.(region.id)}>
+        <Button type="link" onClick={() => onViewDetail?.(region.id)} icon={<EyeOutlined />}>
           {t('common.detail')}
         </Button>
       }
     >
       <div className="space-y-4">
-        <p className="text-gray-600 text-sm">{region.description}</p>
+        <p className="text-gray-600 text-sm line-clamp-2">{region.description}</p>
 
         {/* Tags */}
         <div>
