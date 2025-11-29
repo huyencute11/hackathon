@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "retry": "Thử lại",
+    "detail": "Chi tiết",
+    "close": "Đóng"
+  },
+  "navbar": {
+    "title": "Hệ thống Phối hợp Cứu trợ",
+    "selectRegion": "Chọn khu vực",
+    "selectProduct": "Chọn sản phẩm",
+    "wantToDonate": "Tôi muốn quyên góp",
+    "language": "Ngôn ngữ"
+  },
+  "dashboard": {
+    "title": "Tình hình thiên tai Việt Nam",
+    "subtitle": "Chọn khu vực để xem chi tiết và đóng góp",
+    "search": "Tìm kiếm khu vực...",
+    "errorLoading": "Không thể tải dữ liệu",
+    "noRegionsFound": "Không tìm thấy khu vực phù hợp",
+    "refresh": "Làm mới"
+  },
+  "region": {
+    "tags": "Nhu cầu",
+    "items": "Vật phẩm cần thiết",
+    "providers": "Nhà cung cấp",
+    "aiSuggest": "AI Gợi ý",
+    "viewDetail": "Xem chi tiết"
+  },
+  "donation": {
+    "title": "Địa điểm quyên góp",
+    "selectRegions": "Vui lòng chọn ít nhất một khu vực",
+    "submit": "Tìm địa điểm",
+    "success": "Đã tìm thấy địa điểm quyên góp!",
+    "aiSuccess": "AI đã phân tích và đưa ra gợi ý!"
+  },
+  "geolocation": {
+    "enabled": "Đã xác định vị trí của bạn",
+    "deniedInfo": "Bạn có thể bật GPS để xem khoảng cách đến các điểm quyên góp"
+  }
+}
+

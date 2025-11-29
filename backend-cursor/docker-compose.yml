@@ -35,6 +35,7 @@ services:
       DB_USER: cursor
       DB_PASSWORD: password
       DB_NAME: 3wolf
+      GROQ_API_KEY: ${GROQ_API_KEY}
     volumes:
       - .:/app
     depends_on:

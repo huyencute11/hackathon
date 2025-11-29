@@ -8,8 +8,9 @@ import { Navbar } from './Navbar';
 import { RegionSelector } from './RegionSelector';
 import { ProductSelector } from './ProductSelector';
 import { DonationResult } from './DonationResult';
+import { AIDonationModal } from './AIDonationModal';
 import { apiService } from '../services/api';
-import type { SuggestionResponse, DonationLocation } from '../types';
+import type { SuggestionResponse, DonationLocation, AIDonationResponse } from '../types';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -31,6 +32,15 @@ export const Dashboard: React.FC = () => {
   const [donationLocations, setDonationLocations] = useState<DonationLocation[]>([]);
   const [submittingDonation, setSubmittingDonation] = useState(false);
 
+  // AI Donation states  
+  const [aiDonationModalOpen, setAiDonationModalOpen] = useState(false);
+  const [aiDonationResponse, setAiDonationResponse] = useState<AIDonationResponse | null>(null);
+  const [aiDonationLoading, setAiDonationLoading] = useState(false);
+
+  // Geolocation state
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [locationPermission, setLocationPermission] = useState<'granted' | 'denied' | 'prompt'>('prompt');
+
   const fetchRegions = async () => {
     try {
       setLoading(true);
@@ -47,7 +57,34 @@ export const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchRegions();
+    requestGeolocation();
   }, []);
+
+  // Request user's geolocation
+  const requestGeolocation = () => {
+    if (!navigator.geolocation) {
+      console.warn('Geolocation is not supported by your browser');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        setLocationPermission('granted');
+        message.success(t('geolocation.enabled'));
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setLocationPermission('denied');
+        if (error.code === error.PERMISSION_DENIED) {
+          message.info(t('geolocation.deniedInfo'));
+        }
+      }
+    );
+  };
 
   const filteredRegions = regions.filter((item) =>
     item.region.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -78,6 +115,30 @@ export const Dashboard: React.FC = () => {
       console.error('Error submitting donation:', err);
     } finally {
       setSubmittingDonation(false);
+    }
+  };
+
+  // AI-powered donation handler
+  const handleAIDonation = async (regionId: number) => {
+    setAiDonationModalOpen(true);
+    setAiDonationLoading(true);
+    setAiDonationResponse(null);
+    
+    try {
+      const response = await apiService.submitAIDonation({
+        region_id: regionId,
+        item_ids: [], // Can be extended later
+        user_latitude: userLocation?.latitude,
+        user_longitude: userLocation?.longitude,
+      });
+      setAiDonationResponse(response);
+      message.success('AI đã phân tích và đưa ra gợi ý!');
+    } catch (err) {
+      message.error('Lỗi khi gọi AI. Vui lòng thử lại.');
+      console.error('Error calling AI donation:', err);
+      setAiDonationModalOpen(false);
+    } finally {
+      setAiDonationLoading(false);
     }
   };
 
@@ -165,6 +226,7 @@ export const Dashboard: React.FC = () => {
                     providers: item.recommended_providers || [],
                   }}
                   onViewDetail={(regionId) => navigate(`/region/${regionId}`)}
+                  onAIDonate={handleAIDonation}
                 />
               </Col>
             ))}
@@ -191,6 +253,14 @@ export const Dashboard: React.FC = () => {
         open={donationResultOpen}
         onClose={() => setDonationResultOpen(false)}
         locations={donationLocations}
+      />
+
+      {/* AI Donation Modal */}
+      <AIDonationModal
+        visible={aiDonationModalOpen}
+        onClose={() => setAiDonationModalOpen(false)}
+        response={aiDonationResponse}
+        loading={aiDonationLoading}
       />
     </div>
   );

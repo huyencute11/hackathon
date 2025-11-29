@@ -1,14 +1,15 @@
-import { Card, Tag, Badge, Button } from 'antd';
-import { EnvironmentOutlined, FireOutlined } from '@ant-design/icons';
+import { Card, Tag, Badge, Button, Space } from 'antd';
+import { EnvironmentOutlined, FireOutlined, RobotOutlined, EyeOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import type { RegionDetail } from '../types';
 
 interface RegionCardProps {
   region: RegionDetail;
   onViewDetail?: (regionId: number) => void;
+  onAIDonate?: (regionId: number) => void;
 }
 
-export const RegionCard: React.FC<RegionCardProps> = ({ region, onViewDetail }) => {
+export const RegionCard: React.FC<RegionCardProps> = ({ region, onViewDetail, onAIDonate }) => {
   const { t } = useTranslation();
   const topPriorityItems = region.items
     .sort((a, b) => b.priority_score - a.priority_score)
@@ -81,6 +82,32 @@ export const RegionCard: React.FC<RegionCardProps> = ({ region, onViewDetail }) 
             {t('region.providersAvailable', { count: region.providers.length })}
           </div>
         )}
+
+        {/* AI Donate Button */}
+        <div className="pt-2 mt-4 border-t">
+          <Space size="small" style={{ width: '100%', justifyContent: 'space-between' }}>
+            <Button 
+              type="default" 
+              icon={<EyeOutlined />}
+              onClick={() => onViewDetail?.(region.id)}
+              size="small"
+            >
+              Chi tiết
+            </Button>
+            <Button
+              type="primary"
+              icon={<RobotOutlined />}
+              onClick={() => onAIDonate?.(region.id)}
+              style={{ 
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none'
+              }}
+              size="small"
+            >
+              AI Gợi ý
+            </Button>
+          </Space>
+        </div>
       </div>
     </Card>
   );

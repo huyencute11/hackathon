@@ -17,6 +17,24 @@ export const RegionDetail: React.FC = () => {
   const [data, setData] = useState<SuggestionResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+
+  // Request geolocation on mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.log('Geolocation error:', error);
+        }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +42,11 @@ export const RegionDetail: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await apiService.getSuggestions(Number(id));
+        const response = await apiService.getSuggestions(
+          Number(id),
+          userLocation?.latitude,
+          userLocation?.longitude
+        );
         setData(response);
       } catch (err) {
         setError(t('regionDetail.errorLoading'));
@@ -35,7 +57,7 @@ export const RegionDetail: React.FC = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, userLocation]);
 
   if (loading) {
     return (

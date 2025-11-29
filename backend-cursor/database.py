@@ -85,6 +85,8 @@ class Provider(Base):
     name = Column(String(255), nullable=False)
     location = Column(String(255), nullable=False)
     capacity = Column(Integer, nullable=False, default=0)
+    latitude = Column(Float)
+    longitude = Column(Float)
 
 
 class ProviderRegion(Base):

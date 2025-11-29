@@ -36,6 +36,9 @@ class ProviderResponse(BaseModel):
     name: str
     location: str
     capacity: int
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    distance: Optional[float] = None  # Distance from user in km
 
 
 class ProviderRegionResponse(BaseModel):
@@ -75,13 +78,36 @@ class DonationLocationResponse(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     opening_hours: Optional[str] = None
-    distance: Optional[float] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    distance: Optional[float] = None  # Distance from user in km
     notes: Optional[str] = None
 
 
 class DonationRequest(BaseModel):
     region_ids: List[int] = []
     product_ids: List[int] = []
+
+
+# New AI-powered donation request
+class AIDonationRequest(BaseModel):
+    region_id: int
+    item_ids: List[int] = []
+    user_latitude: Optional[float] = None
+    user_longitude: Optional[float] = None  # Optional: items user wants to donate
+
+
+class SuggestedItemResponse(BaseModel):
+    item: ItemResponse
+    priority_score: float
+    reason: str  # AI-generated reason why this item is needed
+
+
+class AIDonationResponse(BaseModel):
+    region_name: str
+    suggested_items: List[SuggestedItemResponse]
+    donation_locations: List[DonationLocationResponse]
+    ai_message: str  # AI-generated message about the donation
 
 
 class DonationResponse(BaseModel):

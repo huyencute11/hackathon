@@ -35,6 +35,9 @@ export interface Provider {
   name: string;
   location: string;
   capacity: number;
+  latitude?: number;
+  longitude?: number;
+  distance?: number; // Distance from user in km
 }
 
 export interface ProviderRegion {
@@ -71,7 +74,9 @@ export interface DonationLocation {
   phone?: string;
   email?: string;
   opening_hours?: string;
-  distance?: number;
+  latitude?: number;
+  longitude?: number;
+  distance?: number; // Distance from user in km
   notes?: string;
 }
 
@@ -82,5 +87,26 @@ export interface DonationRequest {
 
 export interface DonationResponse {
   locations: DonationLocation[];
+}
+
+// AI-powered donation types
+export interface AIDonationRequest {
+  region_id: number;
+  item_ids?: number[];
+  user_latitude?: number;
+  user_longitude?: number;
+}
+
+export interface SuggestedItem {
+  item: Item;
+  priority_score: number;
+  reason: string; // AI-generated reason
+}
+
+export interface AIDonationResponse {
+  region_name: string;
+  suggested_items: SuggestedItem[];
+  donation_locations: DonationLocation[];
+  ai_message: string; // AI-generated message
 }
 
