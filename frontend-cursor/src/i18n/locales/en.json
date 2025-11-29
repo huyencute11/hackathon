@@ -8,7 +8,8 @@
     "refresh": "Refresh",
     "detail": "Detail",
     "noData": "No data",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "selected": "Selected"
   },
   "app": {
     "title": "Relief Coordination System"
@@ -55,6 +56,31 @@
     "medicalSupplies": "Medical supplies",
     "flashlight": "Flashlight",
     "battery": "Battery"
+  },
+  "donation": {
+    "selectRegion": "Select Region",
+    "selectProduct": "Select Product",
+    "iWantToDonate": "I Want to Donate",
+    "selectRegionsTitle": "Select regions to donate",
+    "selectProductsTitle": "Select products to donate",
+    "selectedRegions": "{{count}} regions selected",
+    "selectedProducts": "{{count}} products selected",
+    "noSelection": "Not selected",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "submitting": "Processing...",
+    "donationLocations": "Donation Locations",
+    "donationLocationsTitle": "Locations where you can donate",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "openingHours": "Opening Hours",
+    "distance": "Distance",
+    "notes": "Notes",
+    "noLocationsFound": "No locations found",
+    "selectAtLeastOne": "Please select at least one region or product",
+    "success": "Success"
   }
 }
 

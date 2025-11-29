@@ -57,3 +57,30 @@ export interface SuggestionResponse {
   recommended_providers: ProviderRegion[];
 }
 
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+}
+
+export interface DonationLocation {
+  id: number;
+  name: string;
+  address: string;
+  phone?: string;
+  email?: string;
+  opening_hours?: string;
+  distance?: number;
+  notes?: string;
+}
+
+export interface DonationRequest {
+  region_ids: number[];
+  product_ids: number[];
+}
+
+export interface DonationResponse {
+  locations: DonationLocation[];
+}
+
