@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Spin, Alert, Typography, Input, Empty } from 'antd';
+import { Row, Col, Spin, Alert, Typography, Input, Empty, message } from 'antd';
 import { ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { RegionCard } from './RegionCard';
-import { LanguageSwitcher } from './LanguageSwitcher';
+import { Navbar } from './Navbar';
+import { RegionSelector } from './RegionSelector';
+import { ProductSelector } from './ProductSelector';
+import { DonationResult } from './DonationResult';
 import { apiService } from '../services/api';
-import type { SuggestionResponse } from '../types';
+import type { SuggestionResponse, DonationLocation } from '../types';
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -18,6 +21,15 @@ export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Donation states
+  const [selectedRegionIds, setSelectedRegionIds] = useState<number[]>([]);
+  const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
+  const [regionSelectorOpen, setRegionSelectorOpen] = useState(false);
+  const [productSelectorOpen, setProductSelectorOpen] = useState(false);
+  const [donationResultOpen, setDonationResultOpen] = useState(false);
+  const [donationLocations, setDonationLocations] = useState<DonationLocation[]>([]);
+  const [submittingDonation, setSubmittingDonation] = useState(false);
 
   const fetchRegions = async () => {
     try {
@@ -41,6 +53,33 @@ export const Dashboard: React.FC = () => {
     item.region.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.region.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleSelectRegions = (ids: number[]) => {
+    setSelectedRegionIds(ids);
+  };
+
+  const handleSelectProducts = (ids: number[]) => {
+    setSelectedProductIds(ids);
+  };
+
+  const handleDonate = async () => {
+    // Allow submission even with empty selections (backend will handle)
+    setSubmittingDonation(true);
+    try {
+      const response = await apiService.submitDonation({
+        region_ids: selectedRegionIds,
+        product_ids: selectedProductIds,
+      });
+      setDonationLocations(response.locations);
+      setDonationResultOpen(true);
+      message.success(t('donation.success'));
+    } catch (err) {
+      message.error(t('common.error'));
+      console.error('Error submitting donation:', err);
+    } finally {
+      setSubmittingDonation(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -73,23 +112,30 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Navbar */}
+      <Navbar
+        onSelectRegion={() => setRegionSelectorOpen(true)}
+        onSelectProduct={() => setProductSelectorOpen(true)}
+        onDonate={handleDonate}
+        selectedRegionsCount={selectedRegionIds.length}
+        selectedProductsCount={selectedProductIds.length}
+        isSubmitting={submittingDonation}
+      />
+
+      {/* Header with Search */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <Title level={2} className="mb-0">
               {t('dashboard.title')}
             </Title>
-            <div className="flex items-center gap-3">
-              <LanguageSwitcher />
-              <button
-                onClick={fetchRegions}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-              >
-                <ReloadOutlined />
-                {t('common.refresh')}
-              </button>
-            </div>
+            <button
+              onClick={fetchRegions}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            >
+              <ReloadOutlined />
+              {t('common.refresh')}
+            </button>
           </div>
           <Search
             placeholder={t('dashboard.searchPlaceholder')}
@@ -125,6 +171,27 @@ export const Dashboard: React.FC = () => {
           </Row>
         )}
       </div>
+
+      {/* Modals */}
+      <RegionSelector
+        open={regionSelectorOpen}
+        onClose={() => setRegionSelectorOpen(false)}
+        onConfirm={handleSelectRegions}
+        initialSelected={selectedRegionIds}
+      />
+
+      <ProductSelector
+        open={productSelectorOpen}
+        onClose={() => setProductSelectorOpen(false)}
+        onConfirm={handleSelectProducts}
+        initialSelected={selectedProductIds}
+      />
+
+      <DonationResult
+        open={donationResultOpen}
+        onClose={() => setDonationResultOpen(false)}
+        locations={donationLocations}
+      />
     </div>
   );
 };

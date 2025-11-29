@@ -8,7 +8,8 @@
     "refresh": "Làm mới",
     "detail": "Chi tiết",
     "noData": "Không có dữ liệu",
-    "notFound": "Không tìm thấy"
+    "notFound": "Không tìm thấy",
+    "selected": "Đã chọn"
   },
   "app": {
     "title": "Hệ thống Cứu trợ - Relief Coordination"
@@ -55,6 +56,31 @@
     "medicalSupplies": "Vật dụng y tế",
     "flashlight": "Đèn pin",
     "battery": "Pin"
+  },
+  "donation": {
+    "selectRegion": "Chọn khu vực",
+    "selectProduct": "Chọn sản phẩm",
+    "iWantToDonate": "Tôi muốn quyên góp",
+    "selectRegionsTitle": "Chọn khu vực muốn quyên góp",
+    "selectProductsTitle": "Chọn sản phẩm muốn quyên góp",
+    "selectedRegions": "Đã chọn {{count}} khu vực",
+    "selectedProducts": "Đã chọn {{count}} sản phẩm",
+    "noSelection": "Chưa chọn",
+    "confirm": "Xác nhận",
+    "cancel": "Hủy",
+    "submit": "Gửi",
+    "submitting": "Đang xử lý...",
+    "donationLocations": "Địa điểm quyên góp",
+    "donationLocationsTitle": "Các địa điểm bạn có thể quyên góp",
+    "address": "Địa chỉ",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "openingHours": "Giờ mở cửa",
+    "distance": "Khoảng cách",
+    "notes": "Ghi chú",
+    "noLocationsFound": "Không tìm thấy địa điểm nào",
+    "selectAtLeastOne": "Vui lòng chọn ít nhất một khu vực hoặc sản phẩm",
+    "success": "Thành công"
   }
 }
 

@@ -1,4 +1,16 @@
-import type { SuggestionResponse, Region, Tag, Item, RegionItem, Provider, ProviderRegion } from '../types';
+import type {
+  SuggestionResponse,
+  Region,
+  Tag,
+  Item,
+  RegionItem,
+  Provider,
+  ProviderRegion,
+  Product,
+  DonationLocation,
+  DonationRequest,
+  DonationResponse,
+} from '../types';
 
 // Mock Tags
 const mockTags: Tag[] = [
@@ -239,5 +251,97 @@ export const getMockSuggestion = (regionId: number): SuggestionResponse | undefi
 // Helper function to get all mock regions
 export const getMockRegions = (): Region[] => {
   return mockRegions;
+};
+
+// Mock Products (same as Items but as Product type)
+export const getMockProducts = (): Product[] => {
+  return mockItems.map((item) => ({
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    category: item.category,
+  }));
+};
+
+// Mock Donation Locations
+const mockDonationLocations: DonationLocation[] = [
+  {
+    id: 1,
+    name: 'Điểm quyên góp Hà Nội',
+    address: '123 Đường Láng, Đống Đa, Hà Nội',
+    phone: '024-1234-5678',
+    email: 'hanoi@relief.org',
+    opening_hours: '8:00 - 18:00 hàng ngày',
+    distance: 5,
+    notes: 'Nhận quyên góp tất cả các loại hàng hóa',
+  },
+  {
+    id: 2,
+    name: 'Điểm quyên góp TP.HCM',
+    address: '456 Nguyễn Huệ, Quận 1, TP.HCM',
+    phone: '028-9876-5432',
+    email: 'hcm@relief.org',
+    opening_hours: '7:00 - 19:00 hàng ngày',
+    distance: 10,
+    notes: 'Ưu tiên nhận thực phẩm và nước sạch',
+  },
+  {
+    id: 3,
+    name: 'Điểm quyên góp Đà Nẵng',
+    address: '789 Lê Duẩn, Hải Châu, Đà Nẵng',
+    phone: '0236-5555-6666',
+    email: 'danang@relief.org',
+    opening_hours: '8:00 - 17:00 hàng ngày',
+    distance: 15,
+    notes: 'Nhận quyên góp quần áo và vật dụng y tế',
+  },
+  {
+    id: 4,
+    name: 'Điểm quyên góp Cần Thơ',
+    address: '321 Nguyễn Văn Cừ, Ninh Kiều, Cần Thơ',
+    phone: '0292-3333-4444',
+    email: 'cantho@relief.org',
+    opening_hours: '7:30 - 18:30 hàng ngày',
+    distance: 8,
+    notes: 'Nhận tất cả loại quyên góp',
+  },
+  {
+    id: 5,
+    name: 'Điểm quyên góp Huế',
+    address: '654 Trần Hưng Đạo, Phú Hội, Huế',
+    phone: '0234-7777-8888',
+    email: 'hue@relief.org',
+    opening_hours: '8:00 - 17:00 hàng ngày',
+    distance: 12,
+    notes: 'Nhận quyên góp 24/7',
+  },
+];
+
+export const getMockDonationLocations = (
+  request: DonationRequest
+): DonationResponse => {
+  // Mock logic: return locations based on selected regions/products
+  // If no selection, return all locations
+  if (request.region_ids.length === 0 && request.product_ids.length === 0) {
+    return { locations: mockDonationLocations };
+  }
+
+  // Filter locations based on selected regions (mock logic)
+  // In real implementation, this would be handled by backend
+  const filteredLocations = mockDonationLocations.filter((location) => {
+    // Simple mock: if region_ids include 1-2, show locations 1-2
+    // if region_ids include 3-5, show locations 3-5
+    if (request.region_ids.length > 0) {
+      if (request.region_ids.includes(1) || request.region_ids.includes(2)) {
+        return location.id === 1 || location.id === 2;
+      }
+      if (request.region_ids.includes(3) || request.region_ids.includes(4) || request.region_ids.includes(5)) {
+        return location.id === 3 || location.id === 4 || location.id === 5;
+      }
+    }
+    return true;
+  });
+
+  return { locations: filteredLocations.length > 0 ? filteredLocations : mockDonationLocations };
 };
 

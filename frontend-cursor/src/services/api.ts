@@ -1,6 +1,19 @@
 import axios from 'axios';
-import type { Region, RegionDetail, SuggestionResponse } from '../types';
-import { mockSuggestions, getMockSuggestion, getMockRegions } from '../data/mockData';
+import type {
+  Region,
+  RegionDetail,
+  SuggestionResponse,
+  Product,
+  DonationRequest,
+  DonationResponse,
+} from '../types';
+import {
+  mockSuggestions,
+  getMockSuggestion,
+  getMockRegions,
+  getMockProducts,
+  getMockDonationLocations,
+} from '../data/mockData';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || true; // Default to true for demo
@@ -66,6 +79,26 @@ export const apiService = {
       return mockSuggestions;
     }
     const response = await api.get<SuggestionResponse[]>('/regions/suggestions');
+    return response.data;
+  },
+
+  // Lấy danh sách sản phẩm
+  getProducts: async (): Promise<Product[]> => {
+    if (USE_MOCK_DATA) {
+      await delay(500);
+      return getMockProducts();
+    }
+    const response = await api.get<Product[]>('/products');
+    return response.data;
+  },
+
+  // Gửi yêu cầu quyên góp
+  submitDonation: async (request: DonationRequest): Promise<DonationResponse> => {
+    if (USE_MOCK_DATA) {
+      await delay(1000); // Simulate processing delay
+      return getMockDonationLocations(request);
+    }
+    const response = await api.post<DonationResponse>('/donations', request);
     return response.data;
   },
 };
