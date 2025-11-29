@@ -1,0 +1,60 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "retry": "Thử lại",
+    "back": "Quay lại",
+    "search": "Tìm kiếm",
+    "refresh": "Làm mới",
+    "detail": "Chi tiết",
+    "noData": "Không có dữ liệu",
+    "notFound": "Không tìm thấy"
+  },
+  "app": {
+    "title": "Hệ thống Cứu trợ - Relief Coordination"
+  },
+  "dashboard": {
+    "title": "Hệ thống Cứu trợ - Relief Coordination",
+    "searchPlaceholder": "Tìm kiếm khu vực...",
+    "loadingData": "Đang tải dữ liệu...",
+    "errorLoading": "Không thể tải dữ liệu. Vui lòng kiểm tra kết nối API.",
+    "noRegionsFound": "Không tìm thấy khu vực nào"
+  },
+  "region": {
+    "needs": "Nhu cầu:",
+    "priorityItems": "Sản phẩm ưu tiên:",
+    "providersAvailable": "Có {{count}} nhà cung cấp có thể hỗ trợ",
+    "description": "Mô tả"
+  },
+  "items": {
+    "title": "Danh sách sản phẩm",
+    "suggestedTitle": "Gợi ý sản phẩm ưu tiên (AI/ML)",
+    "priority": "Ưu tiên",
+    "category": "Danh mục"
+  },
+  "providers": {
+    "title": "Nhà cung cấp",
+    "recommendedTitle": "Nhà cung cấp được đề xuất",
+    "location": "Vị trí",
+    "capacity": "Dung lượng",
+    "distance": "Khoảng cách",
+    "shippingEstimate": "Thời gian vận chuyển",
+    "km": "km"
+  },
+  "regionDetail": {
+    "title": "Chi tiết khu vực",
+    "errorLoading": "Không thể tải dữ liệu. Vui lòng kiểm tra kết nối API.",
+    "notFound": "Không tìm thấy dữ liệu"
+  },
+  "tags": {
+    "water": "Nước sạch",
+    "medicine": "Thuốc men",
+    "food": "Thực phẩm",
+    "clothing": "Quần áo",
+    "shelter": "Chỗ ở",
+    "medicalSupplies": "Vật dụng y tế",
+    "flashlight": "Đèn pin",
+    "battery": "Pin"
+  }
+}
+

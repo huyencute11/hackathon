@@ -1,0 +1,60 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "back": "Back",
+    "search": "Search",
+    "refresh": "Refresh",
+    "detail": "Detail",
+    "noData": "No data",
+    "notFound": "Not found"
+  },
+  "app": {
+    "title": "Relief Coordination System"
+  },
+  "dashboard": {
+    "title": "Relief Coordination System",
+    "searchPlaceholder": "Search regions...",
+    "loadingData": "Loading data...",
+    "errorLoading": "Unable to load data. Please check API connection.",
+    "noRegionsFound": "No regions found"
+  },
+  "region": {
+    "needs": "Needs:",
+    "priorityItems": "Priority items:",
+    "providersAvailable": "{{count}} providers available",
+    "description": "Description"
+  },
+  "items": {
+    "title": "Item list",
+    "suggestedTitle": "Suggested priority items (AI/ML)",
+    "priority": "Priority",
+    "category": "Category"
+  },
+  "providers": {
+    "title": "Providers",
+    "recommendedTitle": "Recommended providers",
+    "location": "Location",
+    "capacity": "Capacity",
+    "distance": "Distance",
+    "shippingEstimate": "Shipping estimate",
+    "km": "km"
+  },
+  "regionDetail": {
+    "title": "Region detail",
+    "errorLoading": "Unable to load data. Please check API connection.",
+    "notFound": "Data not found"
+  },
+  "tags": {
+    "water": "Clean water",
+    "medicine": "Medicine",
+    "food": "Food",
+    "clothing": "Clothing",
+    "shelter": "Shelter",
+    "medicalSupplies": "Medical supplies",
+    "flashlight": "Flashlight",
+    "battery": "Battery"
+  }
+}
+
