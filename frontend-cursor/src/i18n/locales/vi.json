@@ -81,6 +81,33 @@
     "noLocationsFound": "Không tìm thấy địa điểm nào",
     "selectAtLeastOne": "Vui lòng chọn ít nhất một khu vực hoặc sản phẩm",
     "success": "Thành công"
+  },
+  "footer": {
+    "about": {
+      "title": "Về chúng tôi",
+      "description": "Hệ thống cứu trợ nhân đạo kết nối những người cần giúp đỡ với những tấm lòng thiện nguyện. Cùng nhau, chúng ta có thể tạo nên sự khác biệt."
+    },
+    "quickLinks": {
+      "title": "Liên kết nhanh",
+      "home": "Trang chủ",
+      "regions": "Khu vực cần hỗ trợ",
+      "donate": "Quyên góp",
+      "howItWorks": "Cách hoạt động"
+    },
+    "contact": {
+      "title": "Liên hệ",
+      "address": "123 Đường Nhân Đạo, Quận 1, TP.HCM"
+    },
+    "followUs": {
+      "title": "Theo dõi chúng tôi"
+    },
+    "mission": {
+      "title": "Sứ mệnh",
+      "description": "Mỗi hành động nhỏ đều có thể tạo nên thay đổi lớn. Hãy cùng chúng tôi lan tỏa yêu thương và sự hỗ trợ đến những nơi cần nhất."
+    },
+    "copyright": "© 2024 Hệ thống Cứu trợ Nhân đạo",
+    "rights": "Tất cả quyền được bảo lưu.",
+    "message": "💙 Mỗi đóng góp của bạn đều có ý nghĩa. Cảm ơn bạn đã đồng hành cùng chúng tôi!"
   }
 }
 
