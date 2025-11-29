@@ -81,6 +81,33 @@
     "noLocationsFound": "No locations found",
     "selectAtLeastOne": "Please select at least one region or product",
     "success": "Success"
+  },
+  "footer": {
+    "about": {
+      "title": "About Us",
+      "description": "A humanitarian relief system connecting those in need with compassionate hearts. Together, we can make a difference."
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "home": "Home",
+      "regions": "Regions in Need",
+      "donate": "Donate",
+      "howItWorks": "How It Works"
+    },
+    "contact": {
+      "title": "Contact",
+      "address": "123 Humanitarian Street, District 1, Ho Chi Minh City"
+    },
+    "followUs": {
+      "title": "Follow Us"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "Every small action can create great change. Join us in spreading love and support to those who need it most."
+    },
+    "copyright": "© 2024 Humanitarian Relief System",
+    "rights": "All rights reserved.",
+    "message": "💙 Every contribution matters. Thank you for being part of our journey!"
   }
 }
 
