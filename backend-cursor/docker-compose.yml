@@ -43,6 +43,19 @@ services:
     networks:
       - backend-network
 
+  frontend:
+    build:
+      context: ../frontend-cursor
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - backend-network
+
 volumes:
   mysql_data:
     driver: local
