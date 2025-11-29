@@ -37,8 +37,14 @@ export const RegionSelector: React.FC<RegionSelectorProps> = ({
       setLoading(true);
       const data = await apiService.getRegions();
       setRegions(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching regions:', error);
+      // Show error message to user
+      if (error.response) {
+        console.error('API Error:', error.response.status, error.response.data);
+      } else if (error.request) {
+        console.error('Network Error: No response from server');
+      }
     } finally {
       setLoading(false);
     }

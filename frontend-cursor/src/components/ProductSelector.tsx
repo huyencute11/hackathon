@@ -37,8 +37,14 @@ export const ProductSelector: React.FC<ProductSelectorProps> = ({
       setLoading(true);
       const data = await apiService.getProducts();
       setProducts(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching products:', error);
+      // Show error message to user
+      if (error.response) {
+        console.error('API Error:', error.response.status, error.response.data);
+      } else if (error.request) {
+        console.error('Network Error: No response from server');
+      }
     } finally {
       setLoading(false);
     }
