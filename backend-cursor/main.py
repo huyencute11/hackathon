@@ -48,22 +48,80 @@ async def get_all_regions_with_suggestions(db: Session = Depends(database.get_db
     """Get all regions with suggestions"""
     regions = db.query(database.Region).all()
     
-    # Return all regions with empty suggestions (can be enhanced later)
-    return [
-        SuggestionResponse(
-            region=RegionDetailResponse(
-                id=region.id,
-                name=region.name,
-                description=region.description,
-                tags=[],
-                items=[],
-                providers=[]
-            ),
-            suggested_items=[],
-            recommended_providers=[]
+    result = []
+    for region in regions:
+        # Get tags for this region
+        region_tags = db.query(database.Tag).join(
+            database.RegionTag, database.Tag.id == database.RegionTag.tag_id
+        ).filter(database.RegionTag.region_id == region.id).all()
+        
+        # Get items with priority scores
+        region_items_query = db.query(
+            database.RegionItem, database.Item
+        ).join(
+            database.Item, database.RegionItem.item_id == database.Item.id
+        ).filter(database.RegionItem.region_id == region.id).all()
+        
+        region_items = [
+            RegionItemResponse(
+                region_id=ri.region_id,
+                item_id=ri.item_id,
+                priority_score=ri.priority_score,
+                item=ItemResponse(
+                    id=item.id,
+                    name=item.name,
+                    description=item.description,
+                    category=item.category
+                )
+            )
+            for ri, item in region_items_query
+        ]
+        
+        # Get providers for this region
+        provider_regions_query = db.query(
+            database.ProviderRegion, database.Provider
+        ).join(
+            database.Provider, database.ProviderRegion.provider_id == database.Provider.id
+        ).filter(database.ProviderRegion.region_id == region.id).all()
+        
+        providers = [
+            ProviderRegionResponse(
+                provider_id=pr.provider_id,
+                region_id=pr.region_id,
+                distance=pr.distance,
+                shipping_estimate=pr.shipping_estimate,
+                provider=ProviderResponse(
+                    id=p.id,
+                    name=p.name,
+                    location=p.location,
+                    capacity=p.capacity
+                )
+            )
+            for pr, p in provider_regions_query
+        ]
+        
+        # Convert tags
+        tags = [
+            TagResponse(id=tag.id, name=tag.name, category=tag.category)
+            for tag in region_tags
+        ]
+        
+        result.append(
+            SuggestionResponse(
+                region=RegionDetailResponse(
+                    id=region.id,
+                    name=region.name,
+                    description=region.description,
+                    tags=tags,
+                    items=region_items,
+                    providers=providers
+                ),
+                suggested_items=region_items,
+                recommended_providers=providers
+            )
         )
-        for region in regions
-    ]
+    
+    return result
 
 
 @app.get("/api/regions/{region_id}", response_model=RegionDetailResponse)
@@ -73,14 +131,69 @@ async def get_region_detail(region_id: int, db: Session = Depends(database.get_d
     if not region:
         raise HTTPException(status_code=404, detail="Region not found")
     
-    # Mock data for tags, items, and providers (since we don't have these tables yet)
+    # Get tags for this region
+    region_tags = db.query(database.Tag).join(
+        database.RegionTag, database.Tag.id == database.RegionTag.tag_id
+    ).filter(database.RegionTag.region_id == region.id).all()
+    
+    # Get items with priority scores
+    region_items_query = db.query(
+        database.RegionItem, database.Item
+    ).join(
+        database.Item, database.RegionItem.item_id == database.Item.id
+    ).filter(database.RegionItem.region_id == region.id).all()
+    
+    region_items = [
+        RegionItemResponse(
+            region_id=ri.region_id,
+            item_id=ri.item_id,
+            priority_score=ri.priority_score,
+            item=ItemResponse(
+                id=item.id,
+                name=item.name,
+                description=item.description,
+                category=item.category
+            )
+        )
+        for ri, item in region_items_query
+    ]
+    
+    # Get providers for this region
+    provider_regions_query = db.query(
+        database.ProviderRegion, database.Provider
+    ).join(
+        database.Provider, database.ProviderRegion.provider_id == database.Provider.id
+    ).filter(database.ProviderRegion.region_id == region.id).all()
+    
+    providers = [
+        ProviderRegionResponse(
+            provider_id=pr.provider_id,
+            region_id=pr.region_id,
+            distance=pr.distance,
+            shipping_estimate=pr.shipping_estimate,
+            provider=ProviderResponse(
+                id=p.id,
+                name=p.name,
+                location=p.location,
+                capacity=p.capacity
+            )
+        )
+        for pr, p in provider_regions_query
+    ]
+    
+    # Convert tags
+    tags = [
+        TagResponse(id=tag.id, name=tag.name, category=tag.category)
+        for tag in region_tags
+    ]
+    
     return RegionDetailResponse(
         id=region.id,
         name=region.name,
         description=region.description,
-        tags=[],
-        items=[],
-        providers=[]
+        tags=tags,
+        items=region_items,
+        providers=providers
     )
 
 
@@ -91,18 +204,13 @@ async def get_region_suggestions(region_id: int, db: Session = Depends(database.
     if not region:
         raise HTTPException(status_code=404, detail="Region not found")
     
-    # Mock suggestion data
+    # Get region detail (reuse the logic)
+    region_detail = await get_region_detail(region_id, db)
+    
     return SuggestionResponse(
-        region=RegionDetailResponse(
-            id=region.id,
-            name=region.name,
-            description=region.description,
-            tags=[],
-            items=[],
-            providers=[]
-        ),
-        suggested_items=[],
-        recommended_providers=[]
+        region=region_detail,
+        suggested_items=region_detail.items,
+        recommended_providers=region_detail.providers
     )
 
 
