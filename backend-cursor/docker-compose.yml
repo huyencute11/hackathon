@@ -14,6 +14,32 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "cursor", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: fastapi-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: cursor
+      DB_PASSWORD: password
+      DB_NAME: 3wolf
+    volumes:
+      - .:/app
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - backend-network
 
