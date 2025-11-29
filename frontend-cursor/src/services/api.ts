@@ -15,11 +15,22 @@ import {
   getMockDonationLocations,
 } from '../data/mockData';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'; // Default to false - use real API
+// In production/Docker, use relative path (nginx will proxy)
+// In development, use VITE_API_URL or default to localhost:8000
+const getApiBaseUrl = () => {
+  if (import.meta.env.PROD) {
+    // Production: use relative path, nginx will proxy to backend
+    return '/api';
+  }
+  // Development: use environment variable or default
+  return import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : 'http://localhost:8000/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || false; // Default to false in production
 
 const api = axios.create({
-  baseURL: `${API_BASE_URL}/api`,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
